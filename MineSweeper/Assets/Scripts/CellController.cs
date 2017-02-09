@@ -57,7 +57,6 @@ public class CellController : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("HEHEY !!");
             onCellClick(true);
         } 
         else if (Input.GetMouseButtonDown(1))
@@ -68,7 +67,7 @@ public class CellController : MonoBehaviour {
 
     private void OnMouseExit()
     {
-        myTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        myTransform.localScale = new Vector3(1.0f, 1.0f, 0.2f);
     }
 
     void OnGUI()

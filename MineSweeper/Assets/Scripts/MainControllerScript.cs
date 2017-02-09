@@ -11,6 +11,7 @@ public class MainControllerScript : MonoBehaviour {
     public int countMines = 10;
 
     public GameObject cellTemplate;
+    public GameObject basePlane;
 
     private GameField _gf;
     private GameField.StatusGame currStatus = GameField.StatusGame.sgGAME;
@@ -18,6 +19,8 @@ public class MainControllerScript : MonoBehaviour {
 
     private void Awake()
     {
+        //SetUniform();
+
         if (!cellTemplate)
         {
             Debug.LogError("cellTemplate is empty !");
@@ -58,7 +61,7 @@ public class MainControllerScript : MonoBehaviour {
         for (int i = 0; i < sizeX; i++) {
             for (int k = 0; k < sizeY; k++)
             {
-                GameObject new_cell = (GameObject)Instantiate(cellTemplate, new Vector3((float)(i * 1.2) + start_pos_x + 1.5f, (float)((sizeY - k) * 1.2) - start_pos_y - 0.5f, 0), Quaternion.identity);
+                GameObject new_cell = (GameObject)Instantiate(cellTemplate, new Vector3((float)(i * 1.1) + start_pos_x + 1.5f, (float)((sizeY - k) * 1.1) - start_pos_y - 0.5f, 10), Quaternion.identity);
 
                 CellController cc = new_cell.GetComponent<CellController>();
                 cc.InitController(_gf.GetCell(i, k));
@@ -72,25 +75,6 @@ public class MainControllerScript : MonoBehaviour {
         int maxSize = Math.Max(sizeX, sizeY);
         float minScreenSize = Math.Min(width, height);
         float oneCellSize = minScreenSize / maxSize;
-
-
-
-        /*for (int i = 0; i < sizeX; i++)
-        {
-            for (int k = 0; k < sizeY; k++)
-            {
-                Vector3 pos = camera.ScreenToWorldPoint(new Vector3(k * oneCellSize, i * oneCellSize, 0));
-                pos.z = 0;
-                GameObject new_cell = (GameObject)Instantiate(cellTemplate, pos, Quaternion.identity);
-
-                CellController cc = new_cell.GetComponent<CellController>();
-                cc.InitController(_gf.GetCell(i, k));
-                int _i = i;
-                int _k = k;
-                cc.onCellClick += (isLeft) => { onClickCellHandler(_i, _k, isLeft); };
-
-            }
-        }*/
     }
 
     private void onClickCellHandler(int x, int y, bool isLeft)
@@ -134,4 +118,12 @@ public class MainControllerScript : MonoBehaviour {
         GUI.EndGroup();
     }
 
+
+    private void SetUniform()
+    {
+        Camera camera = Camera.main;
+        float orthographicSize = camera.pixelHeight / 2;
+        if (orthographicSize != camera.orthographicSize)
+            camera.orthographicSize = orthographicSize;
+    }
 }
