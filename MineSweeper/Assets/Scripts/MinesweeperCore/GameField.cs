@@ -86,6 +86,19 @@ namespace MineSweeperCore
             return true;
         }
 
+        public void ClearGameField()
+        {
+            for (int i = 0; i < m; i++)
+                for (int k = 0; k < n; k++)
+                {
+                    gameField[i, k].IsMark = false;
+                    gameField[i, k].IsOpen = false;
+                    gameField[i, k].TypeCell = Cell.CellType.ctEMPTY;
+                    gameField[i, k].InitCell();
+                }
+        }
+
+
         //Метод обрабатывае клик мышкой по клетке с координатами (х; у)
         //параметр left == true, если кликнули левой кнопкой, иначе == false
         //Возвращает true, если требуется перерисовка игрового поля.

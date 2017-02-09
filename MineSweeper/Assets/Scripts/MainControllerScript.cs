@@ -71,10 +71,6 @@ public class MainControllerScript : MonoBehaviour {
 
             }
         }
-
-        int maxSize = Math.Max(sizeX, sizeY);
-        float minScreenSize = Math.Min(width, height);
-        float oneCellSize = minScreenSize / maxSize;
     }
 
     private void onClickCellHandler(int x, int y, bool isLeft)
@@ -82,6 +78,10 @@ public class MainControllerScript : MonoBehaviour {
         _gf.ClickCell(x, y, isLeft);
         currStatus = _gf.GameStatus;
 
+        if(currStatus == GameField.StatusGame.sgLOOSE)
+        {
+            _gf.OpenAllMines();
+        }
     }
 
     void OnGUI()
@@ -93,7 +93,9 @@ public class MainControllerScript : MonoBehaviour {
             GUI.Label(new Rect(50, 10, 180, 30), "Кирдык, прориграли");
             if (GUI.Button(new Rect(10, 30, 180, 30), "Еще раз!"))
             {
-                Debug.Log("Хотят сначала");
+                _gf.ClearGameField();
+                _gf.InitializeGameField(countMines);
+                currStatus = _gf.GameStatus;
             }
         }
 

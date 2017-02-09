@@ -108,7 +108,7 @@ namespace MineSweeperCore
         }
 
         //метод для инициализации внутренних полей
-        private void InitCell()
+        public void InitCell()
         {
             neighbors = new List<Cell>();
             neighborsMine = -1;
