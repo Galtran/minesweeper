@@ -127,9 +127,17 @@ namespace MineSweeperCore
             }
             else
             {
-                //Если кликнули левой кнопкой..
-                if (cell.IsOpen || cell.IsMark)
-                    return false;   //...по уже открытой клетке или помеченной флажком - ничего не делаем
+                //Если кликнули левой кнопкой по помеченной клетке - нчиего не делаем
+                if (cell.IsMark)
+                    return false;
+
+                //Если клетка открыта и вокруг стоит нужное число флагов - открываем все остальное
+                if (cell.IsOpen && cell.TypeCell == Cell.CellType.ctNUMBER && cell.NeighborsMine == cell.NeighborsMarked)
+                {
+                    OpenNotMarkedNeighbors(cell);
+                    gameStatus = CalcGameStatus();
+                    return true;
+                }
 
                 //Клетка закрыта и не помечена флагом. Если кликнули по бомбе - конец игры(
                 if (cell.TypeCell == Cell.CellType.ctMINE)
@@ -190,6 +198,17 @@ namespace MineSweeperCore
             return res;
         }
 
+        //Метод для открытия неотмеченных соседей клетки cell
+        private void OpenNotMarkedNeighbors(Cell cell)
+        {
+            foreach (Cell tmp_cell in cell.Neighbors)
+            {
+                if (tmp_cell.IsMark || tmp_cell.IsOpen)
+                    continue;
+                OpenNeighbors(tmp_cell);
+            }
+        }
+
         //Метод для открытия пустой области вокруг клетки cell
         private void OpenNeighbors(Cell cell)
         {
@@ -201,9 +220,9 @@ namespace MineSweeperCore
                 Cell tmp_cell = cells.ElementAt<Cell>(0);
                 cells.RemoveAt(0);
 
-                if(tmp_cell.IsOpen || tmp_cell.IsMark)
+                if (tmp_cell.IsOpen || tmp_cell.IsMark)
                     continue;
-                if (tmp_cell.TypeCell == Cell.CellType.ctNUMBER)
+                if (tmp_cell.TypeCell == Cell.CellType.ctNUMBER || tmp_cell.TypeCell == Cell.CellType.ctMINE)
                     tmp_cell.IsOpen = true;
                 if (tmp_cell.TypeCell == Cell.CellType.ctEMPTY)
                 {

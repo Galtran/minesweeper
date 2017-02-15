@@ -49,6 +49,21 @@ namespace MineSweeperCore
             }
         }
 
+        //Количство соседей, отмеченных флагом
+        public int NeighborsMarked
+        {
+            get
+            {
+                int neighborsMark = 0;
+                foreach (Cell c in neighbors)
+                {
+                    if (c.IsMark)
+                        neighborsMark++;
+                }
+                return neighborsMark;
+            }
+        }
+
         //Открыта ли сейчас клетка
         private bool isOpen;
         public bool IsOpen
