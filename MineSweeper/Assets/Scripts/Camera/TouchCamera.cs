@@ -10,27 +10,46 @@ public class TouchCamera : MonoBehaviour {
 	Vector2 oldTouchVector;
 	float oldTouchDistance;
 
-	void Update() {
+    float tmp = 0;
+
+
+    void OnGUI()
+    {
+        GUI.BeginGroup(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 100, 200, 200));
+
+        GUI.Label(new Rect(50, 10, 180, 30), tmp.ToString());
+
+        GUI.EndGroup();
+    }
+
+
+    void Update() {
         Camera camera = Camera.main;
 
-        if (Input.touchCount == 0) {
-			oldTouchPositions[0] = null;
-			oldTouchPositions[1] = null;
-		}
-		else if (Input.touchCount == 1) {
-			if (oldTouchPositions[0] == null || oldTouchPositions[1] != null) {
-				oldTouchPositions[0] = Input.GetTouch(0).position;
-				oldTouchPositions[1] = null;
-			}
-			else {
-				Vector2 newTouchPosition = Input.GetTouch(0).position;
-				
-				transform.position += transform.TransformDirection((Vector3)((oldTouchPositions[0] - newTouchPosition) * camera.orthographicSize / camera.pixelHeight * 2f));
-				
-				oldTouchPositions[0] = newTouchPosition;
-			}
-		}
-		else {
+        if (Input.touchCount == 0)
+        {
+            oldTouchPositions[0] = null;
+            oldTouchPositions[1] = null;
+        }
+        else if (Input.touchCount == 1)
+        {
+            if (oldTouchPositions[0] == null || oldTouchPositions[1] != null)
+            {
+                oldTouchPositions[0] = Input.GetTouch(0).position;
+                oldTouchPositions[1] = null;
+            }
+            else
+            {
+                Vector2 newTouchPosition = Input.GetTouch(0).position;
+
+                transform.position += transform.TransformDirection((Vector3)((oldTouchPositions[0] - newTouchPosition) * camera.orthographicSize / camera.pixelHeight * 2f));
+
+                oldTouchPositions[0] = newTouchPosition;
+            }
+        }
+        else
+        {
+            /*
 			if (oldTouchPositions[1] == null) {
 				oldTouchPositions[0] = Input.GetTouch(0).position;
 				oldTouchPositions[1] = Input.GetTouch(1).position;
@@ -57,6 +76,29 @@ public class TouchCamera : MonoBehaviour {
 				oldTouchVector = newTouchVector;
 				oldTouchDistance = newTouchDistance;
 			}
-		}
+            */
+
+            if (oldTouchPositions[1] == null)
+            {
+                oldTouchPositions[0] = Input.GetTouch(0).position;
+                oldTouchPositions[1] = Input.GetTouch(1).position;
+                oldTouchVector = (Vector2)(oldTouchPositions[0] - oldTouchPositions[1]);
+                oldTouchDistance = oldTouchVector.magnitude;
+            }
+            else
+            {
+                Vector2[] newTouchPositions = {
+                    Input.GetTouch(0).position,
+                    Input.GetTouch(1).position
+                };
+                Vector2 newTouchVector = newTouchPositions[0] - newTouchPositions[1];
+                float newTouchDistance = newTouchVector.magnitude;
+
+                camera.orthographicSize += ((oldTouchDistance - newTouchDistance) / 100);
+
+                tmp = (oldTouchDistance - newTouchDistance) / 100;
+            }
+        }
+
 	}
 }
