@@ -94,7 +94,8 @@ public class TouchCamera : MonoBehaviour {
                 Vector2 newTouchVector = newTouchPositions[0] - newTouchPositions[1];
                 float newTouchDistance = newTouchVector.magnitude;
 
-                camera.orthographicSize += ((oldTouchDistance - newTouchDistance) / 100);
+                float newOrthographicSize = camera.orthographicSize + ((oldTouchDistance - newTouchDistance) / 100);
+                camera.orthographicSize = Mathf.Max(2, Mathf.Min(newOrthographicSize, 30));
 
                 tmp = (oldTouchDistance - newTouchDistance) / 100;
             }

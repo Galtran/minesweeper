@@ -50,19 +50,24 @@ public class CellController : MonoBehaviour {
     {
         _cell = c;
     }
+    
+    void OnMouseUpAsButton()
+    {
+        onCellClick(true);
+    }
 
     void OnMouseOver()
     {
         myTransform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             onCellClick(true);
         } 
         else if (Input.GetMouseButtonDown(1))
         {
             onCellClick(false);
-        }
+        }*/
     }
 
     private void OnMouseExit()
