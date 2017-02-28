@@ -14,12 +14,16 @@ public class GameFieldController : MonoBehaviour {
 
     private GameField _gf;
     private GameField.StatusGame currStatus = GameField.StatusGame.sgPAUSE;
+    private List<GameObject> visualCells = new List<GameObject>();
 
     #region Base Unity methods
     private void Awake()
     {
         EventController.OnPrepareStartNewGame += PrepareGame;
         EventController.OnRestartGame += RecreateGameField;
+
+        EventController.OnSaveGame += SaveGame;
+        EventController.onLoadGame += LoadGame;
     }
     #endregion
 
@@ -55,11 +59,17 @@ public class GameFieldController : MonoBehaviour {
         float start_pos_x = topLeft.x;
         float start_pos_y = topLeft.y;
 
+        foreach(GameObject vc in visualCells)
+        {
+            Destroy(vc);
+        }
+
         for (int i = 0; i < sizeX; i++)
         {
             for (int k = 0; k < sizeY; k++)
             {
                 GameObject new_cell = (GameObject)Instantiate(cellTemplate, new Vector3((float)(i * 1.1) + start_pos_x + 1.5f, (float)((sizeY - k) * 1.1) - start_pos_y - 0.5f, 10), Quaternion.identity);
+                visualCells.Add(new_cell);
 
                 CellController cc = new_cell.GetComponent<CellController>();
                 cc.InitController(_gf.GetCell(i, k));
@@ -84,5 +94,19 @@ public class GameFieldController : MonoBehaviour {
         {
             _gf.OpenAllMines();
         }
+    }
+
+    private void SaveGame()
+    {
+        GameFieldSerializer gfs = new GameFieldSerializer();
+        gfs.Serialize(_gf);
+    }
+
+    private void LoadGame()
+    {
+        GameFieldSerializer gfs = new GameFieldSerializer();
+        _gf = gfs.DeSerialize();
+
+        CreateVisualField();
     }
 }

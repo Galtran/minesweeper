@@ -62,6 +62,22 @@ public class EventController
     {
         OnRestartGame();
     }
+
+    //Сохранить игру
+    public delegate void _SaveGame();
+    public static event _SaveGame OnSaveGame;
+    public void SaveGame()
+    {
+        OnSaveGame();
+    }
+
+    //Загрузить игру
+    public delegate void _LoadGame();
+    public static event _LoadGame onLoadGame;
+    public void LoadGame()
+    {
+        onLoadGame();
+    }
     #endregion
 
 
@@ -75,5 +91,15 @@ public class EventController
     public static event MarkCell OnMarkCell;
     #endregion
 
-    
+
+    #region События с вводом
+    //Изменяем масштаб
+    public delegate void _ChangeOrtoSize(float newSize);
+    public static event _ChangeOrtoSize onChangeOrtoSize;
+    public void ChangeOrtoSize(float newSize)
+    {
+        onChangeOrtoSize(newSize);
+    }
+    #endregion
+
 }

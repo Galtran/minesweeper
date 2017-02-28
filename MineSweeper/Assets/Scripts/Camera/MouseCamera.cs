@@ -13,22 +13,17 @@ public class MouseCamera : MonoBehaviour
     public float scrollSpeed = 10.0f;
 
     public float zoomMin = 1.0f;
-
     public float zoomMax = 20.0f;
 
     public float distance;
-
     public Vector3 position;
 
     public bool isActivated;
-
-
+    
 
     float x = 0.0f;
-
     float y = 0.0f;
-
-
+    
 
     // Use this for initialization
     void Start()
@@ -94,4 +89,6 @@ public class MouseCamera : MonoBehaviour
 
         return dist;
     }
+
+
 }
