@@ -19,6 +19,11 @@ public class SaveLoad : MonoBehaviour {
     }
 
     public void onClickLoadButton() {
-        EventController.Instance.LoadGame();
+        EventController.Instance.LoadGame("last");
+    }
+
+    public void onClickLoadBeginnersButton()
+    {
+        EventController.Instance.LoadGame("beginners");
     }
 }

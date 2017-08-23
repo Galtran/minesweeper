@@ -77,7 +77,7 @@ public class CellController : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
+        /*GUI.BeginGroup(new Rect(0, 0, Screen.width, Screen.height));
 
         Camera camera = Camera.main;
 
@@ -88,6 +88,6 @@ public class CellController : MonoBehaviour {
         }
         
 
-        GUI.EndGroup();
+        GUI.EndGroup();*/
     }
 }

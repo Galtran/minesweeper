@@ -72,11 +72,11 @@ public class EventController
     }
 
     //Загрузить игру
-    public delegate void _LoadGame();
+    public delegate void _LoadGame(string level);
     public static event _LoadGame onLoadGame;
-    public void LoadGame()
+    public void LoadGame(string level)
     {
-        onLoadGame();
+        onLoadGame(level);
     }
     #endregion
 

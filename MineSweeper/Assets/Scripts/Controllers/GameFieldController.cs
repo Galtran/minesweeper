@@ -64,9 +64,9 @@ public class GameFieldController : MonoBehaviour {
             Destroy(vc);
         }
 
-        for (int i = 0; i < sizeX; i++)
+        for (int i = 0; i < _gf.M; i++)
         {
-            for (int k = 0; k < sizeY; k++)
+            for (int k = 0; k < _gf.N; k++)
             {
                 GameObject new_cell = (GameObject)Instantiate(cellTemplate, new Vector3((float)(i * 1.1) + start_pos_x + 1.5f, (float)((sizeY - k) * 1.1) - start_pos_y - 0.5f, 10), Quaternion.identity);
                 visualCells.Add(new_cell);
@@ -102,10 +102,13 @@ public class GameFieldController : MonoBehaviour {
         gfs.Serialize(_gf);
     }
 
-    private void LoadGame()
+    private void LoadGame(string level)
     {
         GameFieldSerializer gfs = new GameFieldSerializer();
-        _gf = gfs.DeSerialize();
+
+        if(level == "last")
+            _gf = gfs.DeSerialize();
+        else _gf = gfs.DeserializeByByteArray(LevelsManager.GetBegLevel());
 
         CreateVisualField();
     }
